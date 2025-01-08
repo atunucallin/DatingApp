@@ -1,0 +1,19 @@
+<h4>Internal Server Error</h4>
+@if (error) {
+
+<h5 class="text-danger">Error : {{error.message}}</h5>
+<p class="font-weight-bold">Api Problems not Angular</p>
+<p>what to do next?</p>
+
+<ol>
+    <li> Open chrome dev tools and check failing netwok request</li>
+    <li> Examine the url of the failing request</li>
+    <li> Check postman</li>
+</ol>
+
+<p class="font-weight-bold">Follow the stack trace</p>
+
+<code class="mt-5" style="background-color: whitesmoke;">
+{{error.details}}
+</code>
+}
