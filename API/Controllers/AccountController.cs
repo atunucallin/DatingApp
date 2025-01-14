@@ -43,7 +43,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
 
     {
 
-        var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
+        var user = await context.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
 
         if (user == null)
         {
@@ -52,16 +52,19 @@ public class AccountController(DataContext context, ITokenService tokenService) 
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
         var computedhash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-        for (int i = 0; i < computedhash.Length; i ++){
+        for (int i = 0; i < computedhash.Length; i++)
+        {
 
-            if(computedhash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+            if (computedhash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
         }
 
 
 
-       return new UserDto{
+        return new UserDto
+        {
             Username = user.UserName,
-            Token = tokenService.CreateToken(user)    
+            Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.Ismain)?.Url
         };
 
     }
