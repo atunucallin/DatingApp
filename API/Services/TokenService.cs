@@ -14,12 +14,14 @@ public class TokenService(IConfiguration config) : ITokenService
     {
         var tokenKey = config["TokenKey"] ?? throw new Exception("Cannot Access tokenkey from appsettings");
 
-        if(tokenKey.Length < 64)  throw new Exception("Token Needs To be Longer");
+        if (tokenKey.Length < 64) throw new Exception("Token Needs To be Longer");
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
         var claims = new List<Claim>{
-            new(ClaimTypes.NameIdentifier, user.UserName),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.UserName),
+
         };
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
