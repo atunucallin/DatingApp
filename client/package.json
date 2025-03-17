@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postbuild": "move /Y ../API/wwwroot/browser/* ../API/wwwroot/ && rmdir /S /Q ../API/wwwroot/browser"
+
   },
   "private": true,
   "dependencies": {
@@ -37,12 +39,14 @@
     "@angular/cli": "^18.2.6",
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~5.1.0",
+    "fs-extra": "^11.3.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "rimraf": "^6.0.1",
     "typescript": "~5.5.2"
   }
 }
