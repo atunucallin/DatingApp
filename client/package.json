@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "postbuild": "move /Y ../API/wwwroot/browser/* ../API/wwwroot/ && rmdir /S /Q ../API/wwwroot/browser"
+    "test": "ng test"
 
   },
   "private": true,
