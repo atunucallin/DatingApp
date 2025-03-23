@@ -27,9 +27,7 @@ jobs:
         run: npm install -g @angular/cli@18
 
 
-      - name: List Published Files
-        run: Get-ChildItem -Path "${{env.DOTNET_ROOT}}/myapp/wwwroot" -Recurse
-
+      
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -45,8 +43,18 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: List Published Files
+        run: Get-ChildItem -Path "${{env.DOTNET_ROOT}}/myapp/wwwroot" -Recurse
+
+      - name: Debug Angular Build Output
+        run: ls -R client/dist
+
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp" --no-build
+
+      - name: Verify Published Files
+        run: ls -R "${{env.DOTNET_ROOT}}/myapp/wwwroot"
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
